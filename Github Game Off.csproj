@@ -1,0 +1,12 @@
+<Project Sdk="Godot.NET.Sdk/4.0.0-beta.3">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RootNamespace>GithubGameOff</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Catalyst" Version="1.0.33442" />
+    <PackageReference Include="Catalyst.Models.English" Version="1.0.30952" />
+    <PackageReference Include="Proxem.Word2Vec" Version="1.6.0" />
+  </ItemGroup>
+</Project>
