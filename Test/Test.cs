@@ -9,8 +9,8 @@ public partial class Test : Node2D
 	public override void _Ready()
 	{
 		Catalyst.Models.English.Register();
-
-		var model = Word2Vec.LoadBinary("model.bin", normalize: true, encoding: System.Text.Encoding.UTF8);
+		
+		var model = Word2Vec.LoadBinary("NLP/model.bin", normalize: true, encoding: System.Text.Encoding.UTF8);
 
 		Task.Run(async () =>
 		{
