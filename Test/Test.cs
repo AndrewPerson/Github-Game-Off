@@ -5,11 +5,11 @@ using Proxem.Word2Vec;
 
 public partial class Test : Node2D
 {
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		Catalyst.Models.English.Register();
-		
+
+		//TODO Change this to use built-in Godot file system. This will currently break when exported.
 		var model = Word2Vec.LoadBinary("NLP/model.bin", normalize: true, encoding: System.Text.Encoding.UTF8);
 
 		Task.Run(async () =>
