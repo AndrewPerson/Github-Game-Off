@@ -2,13 +2,13 @@ using System;
 
 namespace Game;
 
-enum Direction
+public enum Direction
 {
     FROM,
     TO
 }
 
-class Connection
+public class Connection
 {
     //At 7 units of distance, the cliche will only be half as catchy.
     //CATCHINESS_LENGTH_FALLOFF = 0.5^(1/7)
@@ -45,15 +45,28 @@ class Connection
         if (from.producedCliche == null)
             return;
 
-        //A catchiness falloff multiplier of 0.5 should result in the penalty being 50% less harsh.
-        //That means the graph of length vs penalty should be stretched by 50%.
         float penalty = MathF.Pow(Length, CATCHINESS_LENGTH_FALLOFF);
 
-        to.ReceiveCliche(from.producedCliche, from.producedCliche.GetCatchiness(to) * penalty);
+        to.AddCliche(from.producedCliche, from.producedCliche.GetCatchiness(to) * penalty);
+    }
+
+    public void RemoveProducedCliche()
+    {
+        if (from.producedCliche == null)
+            return;
+
+        float penalty = MathF.Pow(Length, CATCHINESS_LENGTH_FALLOFF);
+
+        to.RemoveCliche(from.producedCliche, from.producedCliche.GetCatchiness(to) * penalty);
+    }
+
+    public void Disconnect()
+    {
+        from.DisconnectFrom(to);
     }
 }
 
-class RelativeConnection
+public class RelativeConnection
 {
     public Direction direction;
     public City other;

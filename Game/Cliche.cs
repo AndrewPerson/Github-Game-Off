@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Game;
 
-class Cliche
+public class Cliche
 {
     public readonly string text;
 
@@ -44,7 +44,7 @@ class Cliche
     }
 }
 
-class ClicheCityStats
+public class ClicheCityStats
 {
     public float catchiness;
     public float spreadPercentage;

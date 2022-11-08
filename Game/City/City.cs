@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Game;
 
-class City
+public class City
 {
     public Vector2 position;
     public List<Connection> connections = new();
@@ -14,6 +14,11 @@ class City
     public City(Vector2 position)
     {
         this.position = position;
+    }
+
+    public void CalculateInternalClicheSpreads()
+    {
+        throw new System.NotImplementedException("Cannot spread internal cliches yet");
     }
 
     public void ConnectTo(City other)
@@ -35,8 +40,13 @@ class City
     /// </summary>
     public void DisconnectFrom(City other)
     {
-        connections.RemoveAll(x => x.to == other);
-        other.connections.RemoveAll(x => x.from == this);
+        var index = connections.FindIndex(x => x.to == other);
+
+        if (index != -1)
+        {
+            connections[index].RemoveProducedCliche();
+            connections.RemoveAt(index);
+        }
     }
 
     public void SpreadProducedCliche()
@@ -54,7 +64,7 @@ class City
         }
     }
 
-    public void ReceiveCliche(Cliche cliche, float catchiness)
+    public void AddCliche(Cliche cliche, float catchiness)
     {
         if (clicheStats.ContainsKey(cliche))
         {
@@ -63,6 +73,14 @@ class City
         else
         {
             clicheStats.Add(cliche, new ClicheCityStats(catchiness, 0));
+        }
+    }
+
+    public void RemoveCliche(Cliche cliche, float catchiness)
+    {
+        if (clicheStats.ContainsKey(cliche))
+        {
+            clicheStats[cliche].catchiness -= catchiness;
         }
     }
 
