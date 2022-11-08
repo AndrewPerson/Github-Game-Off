@@ -4,22 +4,42 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Game;
 
-struct City
+class City
 {
     public Vector2 position;
-    public List<Connection> connections;
-    public List<ClicheSpread> clicheSpreads;
-    public Cliche? producedCliche;
+    public List<Connection> connections = new();
+    public Dictionary<Cliche, ClicheCityStats> clicheStats = new();
+    public Cliche? producedCliche = null;
 
     public City(Vector2 position)
     {
         this.position = position;
-        connections = new List<Connection>();
-        clicheSpreads = new List<ClicheSpread>();
-        producedCliche = null;
     }
 
-    public void Spread()
+    public void ConnectTo(City other)
+    {
+        var newConnection = new Connection(this, other);
+
+        connections.Add(newConnection);
+        other.connections.Add(newConnection);
+    }
+
+    /// <summary>
+    /// This will only remove all connections *from* this city to the <paramref name="other">other city</paramref>
+    /// If you want to remove all connections between both cities do this:
+    /// <code>
+    /// a.DisconnectFrom(b);
+    ///
+    /// b.DisconnectFrom(a);
+    /// </code>
+    /// </summary>
+    public void DisconnectFrom(City other)
+    {
+        connections.RemoveAll(x => x.to == other);
+        other.connections.RemoveAll(x => x.from == this);
+    }
+
+    public void SpreadProducedCliche()
     {
         if (producedCliche == null)
             return;
@@ -29,13 +49,27 @@ struct City
             var relativeConnection = connection.GetRelativeConnection(this);
             if (relativeConnection.direction == Direction.FROM)
             {
-                throw new System.NotImplementedException("Spreading is not implemented yet");
+                connection.SpreadProducedCliche();
             }
         }
     }
 
-    public override bool Equals([NotNullWhen(true)] object obj)
+    public void ReceiveCliche(Cliche cliche, float catchiness)
     {
+        if (clicheStats.ContainsKey(cliche))
+        {
+            clicheStats[cliche].catchiness += catchiness;
+        }
+        else
+        {
+            clicheStats.Add(cliche, new ClicheCityStats(catchiness, 0));
+        }
+    }
+
+    public override bool Equals([NotNullWhen(true)] object? obj)
+    {
+        if (obj == null) return false;
+
         if (obj.GetType() == typeof(City))
         {
             City other = (City)obj;
@@ -46,66 +80,16 @@ struct City
 
     public override int GetHashCode() => base.GetHashCode();
 
-    public static bool operator ==(City lhs, City rhs)
+    public static bool operator ==(City? lhs, City? rhs)
     {
+        if (lhs == null) return rhs == null;
+        if (rhs == null) return lhs == null;
+
         return lhs.Equals(rhs);
     }
 
-    public static bool operator !=(City lhs, City rhs)
+    public static bool operator !=(City? lhs, City? rhs)
     {
-        return !lhs.Equals(rhs);
-    }
-}
-
-struct ClicheSpread
-{
-    public Cliche cliche;
-    public float percentageSpread;
-
-    public ClicheSpread(Cliche cliche, float percentageSpread)
-    {
-        this.cliche = cliche;
-        this.percentageSpread = percentageSpread;
-    }
-}
-
-enum Direction
-{
-    FROM,
-    TO
-}
-
-struct Connection
-{
-    public City from;
-    public City to;
-    public float Length => (to.position - from.position).Length();
-
-    public RelativeConnection GetRelativeConnection(City node)
-    {
-        if (node == from)
-        {
-            return new RelativeConnection(Direction.FROM, to);
-        }
-        else if (node == to)
-        {
-            return new RelativeConnection(Direction.TO, from);
-        }
-        else
-        {
-            throw new System.Exception("City is not connected to this connection.");
-        }
-    }
-}
-
-struct RelativeConnection
-{
-    public Direction direction;
-    public City other;
-
-    public RelativeConnection(Direction direction, City other)
-    {
-        this.other = other;
-        this.direction = direction;
+        return !(lhs == rhs);
     }
 }
