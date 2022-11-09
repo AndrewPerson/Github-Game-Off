@@ -28,7 +28,7 @@ public class Cliche
         else return false;
     }
 
-    public override int GetHashCode() => base.GetHashCode();
+    public override int GetHashCode() => text.GetHashCode();
 
     public static bool operator ==(Cliche? lhs, Cliche? rhs)
     {

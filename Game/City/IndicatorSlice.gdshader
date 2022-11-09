@@ -1,8 +1,8 @@
 shader_type canvas_item;
 
-uniform sampler2D colours;
-uniform float selectedStart;
-uniform float selectedEnd;
+uniform vec4 colour : source_color;
+uniform float percentage;
+uniform float percentage_offset;
 
 vec2 polar_coordinates(vec2 uv)
 {
@@ -16,10 +16,8 @@ void fragment() {
 	
 	vec2 polarUV = polar_coordinates(shiftedUV);
 	
-	float radius = polarUV.y > selectedStart && polarUV.y < selectedEnd ? 1.0 : 0.9;
-	
-	if (polarUV.x <= radius) {
-		COLOR = texture(colours, vec2(polarUV.y, 0));
+	if (polarUV.x <= 1.0 && polarUV.y > percentage_offset && polarUV.y < percentage + percentage_offset) {
+		COLOR = colour;
 	}
 	else {
 		COLOR = vec4(0);

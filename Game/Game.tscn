@@ -1,3 +1,8 @@
-[gd_scene format=3 uid="uid://cfpqjetfy6bjj"]
+[gd_scene load_steps=3 format=3 uid="uid://cfpqjetfy6bjj"]
+
+[ext_resource type="Script" path="res://Game/GameNode.cs" id="1_daene"]
+[ext_resource type="PackedScene" uid="uid://br7dtu3nfbtb2" path="res://Game/City/City.tscn" id="2_rqbad"]
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_daene")
+cityTemplate = ExtResource("2_rqbad")

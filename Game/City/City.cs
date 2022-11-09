@@ -1,4 +1,6 @@
 using Godot;
+using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
@@ -6,19 +8,58 @@ namespace Game;
 
 public class City
 {
+    public event Action? OnUpdateConnections;
+    public event Action? OnUpdateCliches;
+    public event Action? OnUpdateProducedCliche;
+
+    public string name;
     public Vector2 position;
     public List<Connection> connections = new();
     public Dictionary<Cliche, ClicheCityStats> clicheStats = new();
-    public Cliche? producedCliche = null;
+    public Cliche? producedCliche = null;    
 
-    public City(Vector2 position)
+    public City(string name, Vector2 position)
     {
+        this.name = name;
         this.position = position;
     }
 
     public void CalculateInternalClicheSpreads()
     {
-        throw new System.NotImplementedException("Cannot spread internal cliches yet");
+        var sortedCliches = clicheStats.OrderBy(s => s.Value.catchiness).ToArray();
+        
+        var summedCatchiness = 0f;
+        for (int i = 0; i < sortedCliches.Length; i++)
+        {
+            var (cliche, stats) = sortedCliches[i];
+
+            if (i > 0)
+            {
+                //TODO Tweak the dynamic spread percentage
+                var spread = 0.02f * stats.spreadPercentage;
+
+                for (int x = 0; x < i; x++)
+                {
+                    var spreadLoss = 1 - sortedCliches[x].Value.catchiness / summedCatchiness;
+                    spreadLoss *= spread;
+
+                    //TODO Remove cliches when their percentage drops to zero.
+                    sortedCliches[x].Value.spreadPercentage -= spreadLoss;
+                }
+
+                //TODO Cap the spread at 1. (100%)
+                sortedCliches[i].Value.spreadPercentage += spread;
+            }
+
+            summedCatchiness += stats.catchiness;
+        }
+
+        foreach (var (cliche, stats) in sortedCliches)
+        {
+            clicheStats[cliche] = stats;
+        }
+
+        OnUpdateCliches?.Invoke();
     }
 
     public void ConnectTo(City other)
@@ -27,6 +68,8 @@ public class City
 
         connections.Add(newConnection);
         other.connections.Add(newConnection);
+
+        OnUpdateConnections?.Invoke();
     }
 
     /// <summary>
@@ -46,6 +89,8 @@ public class City
         {
             connections[index].RemoveProducedCliche();
             connections.RemoveAt(index);
+
+            OnUpdateConnections?.Invoke();
         }
     }
 
@@ -74,6 +119,8 @@ public class City
         {
             clicheStats.Add(cliche, new ClicheCityStats(catchiness, 0));
         }
+
+        OnUpdateCliches?.Invoke();
     }
 
     public void RemoveCliche(Cliche cliche, float catchiness)
@@ -82,6 +129,8 @@ public class City
         {
             clicheStats[cliche].catchiness -= catchiness;
         }
+
+        OnUpdateCliches?.Invoke();
     }
 
     public override bool Equals([NotNullWhen(true)] object? obj)

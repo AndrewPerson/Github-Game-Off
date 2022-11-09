@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://ckc7j8yw44axl"]
+
+[ext_resource type="Shader" path="res://Game/City/IndicatorSlice.gdshader" id="1_4pt7m"]
+[ext_resource type="Script" path="res://Game/City/IndicatorSliceNode.cs" id="2_ocpd8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tdu8d"]
+shader = ExtResource("1_4pt7m")
+shader_parameter/colour = Color(1, 1, 1, 1)
+shader_parameter/percentage = 1.0
+shader_parameter/percentage_offset = null
+
+[node name="IndicatorSlice" type="ColorRect"]
+material = SubResource("ShaderMaterial_tdu8d")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1152.0
+offset_bottom = -648.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_ocpd8")
