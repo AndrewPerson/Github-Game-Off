@@ -42,22 +42,22 @@ public class Connection
 
     public void SpreadProducedCliche()
     {
-        if (from.producedCliche == null)
+        if (from.ProducedCliche == null)
             return;
 
         float penalty = MathF.Pow(Length, CATCHINESS_LENGTH_FALLOFF);
 
-        to.AddCliche(from.producedCliche, from.producedCliche.GetCatchiness(to) * penalty);
+        to.AddCliche(from.ProducedCliche, from.ProducedCliche.GetCatchiness(to) * penalty);
     }
 
     public void RemoveProducedCliche()
     {
-        if (from.producedCliche == null)
+        if (from.ProducedCliche == null)
             return;
 
         float penalty = MathF.Pow(Length, CATCHINESS_LENGTH_FALLOFF);
 
-        to.RemoveCliche(from.producedCliche, from.producedCliche.GetCatchiness(to) * penalty);
+        to.RemoveCliche(from.ProducedCliche, from.ProducedCliche.GetCatchiness(to) * penalty);
     }
 
     public void Disconnect()

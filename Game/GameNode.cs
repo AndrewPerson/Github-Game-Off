@@ -21,7 +21,7 @@ public partial class GameNode : Node
     {
         Instance = this;
 
-        timer.Interval = 1000;
+        timer.Interval = 200;
         timer.Elapsed += (sender, e) => OnTimerElapsed();
         timer.Start();
 

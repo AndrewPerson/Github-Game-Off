@@ -32,17 +32,6 @@ public partial class CityNode : Node2D
 		UpdateIndicator();
     }
 
-	private Color GetColor(Cliche cliche)
-	{
-		var hash = cliche.GetHashCode();
-
-		var r = (hash & 0xFF) / 255.0f;
-		var g = ((hash >> 8) & 0xFF) / 255.0f;
-		var b = ((hash >> 16) & 0xFF) / 255.0f;
-
-		return new Color(r, g, b);
-	}
-
 	private void UpdateIndicator()
 	{
 		for (int i = indicator.GetChildCount() - 1; i >= city.clicheStats.Count; i--)
@@ -69,11 +58,11 @@ public partial class CityNode : Node2D
 				indicator.AddChild(slice);
 			}
 
-			slice.Colour = GetColor(cliche);
-			slice.Percentage = stats.spreadPercentage;
+			slice.Colour = cliche.Colour;
+			slice.Percentage = stats.spread;
 			slice.PercentageOffset = cumulativePercentage;
 
-			cumulativePercentage += stats.spreadPercentage;
+			cumulativePercentage += stats.spread;
 
 			index++;
 		}

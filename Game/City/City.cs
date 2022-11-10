@@ -16,7 +16,17 @@ public class City
     public Vector2 position;
     public List<Connection> connections = new();
     public Dictionary<Cliche, ClicheCityStats> clicheStats = new();
-    public Cliche? producedCliche = null;    
+
+    private Cliche? producedCliche;
+    public Cliche? ProducedCliche
+    {
+        get => producedCliche;
+        set
+        {
+            producedCliche = value;
+            OnUpdateProducedCliche?.Invoke();
+        }
+    }    
 
     public City(string name, Vector2 position)
     {
@@ -29,34 +39,52 @@ public class City
         var sortedCliches = clicheStats.OrderBy(s => s.Value.catchiness).ToArray();
         
         var summedCatchiness = 0f;
+        var catchinessCount = 0;
+
         for (int i = 0; i < sortedCliches.Length; i++)
         {
             var (cliche, stats) = sortedCliches[i];
 
-            if (i > 0)
+            //TODO Tweak the dynamic spread percentage
+            var spread = 0.02f * MathF.Max(stats.spread, 0.1f);
+            var actualSpread = 0f;
+
+            var avgCatchiness = summedCatchiness / catchinessCount;
+
+            foreach (var (_, stats2) in sortedCliches[..i])
             {
-                //TODO Tweak the dynamic spread percentage
-                var spread = 0.02f * stats.spreadPercentage;
+                var spreadLoss = avgCatchiness - (stats2.catchiness - avgCatchiness);
+                spreadLoss *= 1 / summedCatchiness;
+                spreadLoss *= spread;
 
-                for (int x = 0; x < i; x++)
+                if (spreadLoss >= stats2.spread)
                 {
-                    var spreadLoss = 1 - sortedCliches[x].Value.catchiness / summedCatchiness;
-                    spreadLoss *= spread;
+                    actualSpread += stats2.spread;
+                    stats2.spread = 0;
 
-                    //TODO Remove cliches when their percentage drops to zero.
-                    sortedCliches[x].Value.spreadPercentage -= spreadLoss;
+                    summedCatchiness -= stats2.catchiness;
+                    catchinessCount--;
                 }
+                else
+                {
+                    actualSpread += spreadLoss;
 
-                //TODO Cap the spread at 1. (100%)
-                sortedCliches[i].Value.spreadPercentage += spread;
+                    stats2.spread -= spreadLoss;
+                }
             }
 
+            sortedCliches[i].Value.spread += actualSpread;
+
             summedCatchiness += stats.catchiness;
+            catchinessCount++;
         }
 
         foreach (var (cliche, stats) in sortedCliches)
         {
-            clicheStats[cliche] = stats;
+            if (stats.spread <= 0)
+            {
+                clicheStats.Remove(cliche);
+            }
         }
 
         OnUpdateCliches?.Invoke();

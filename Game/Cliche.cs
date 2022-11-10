@@ -1,3 +1,4 @@
+using Godot;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Game;
@@ -5,6 +6,25 @@ namespace Game;
 public class Cliche
 {
     public readonly string text;
+
+    public Color Colour
+    {
+        get
+        {
+            var hash = GetHashCode();
+
+            var r = (hash & 0xFF) / 255.0f;
+            r = (r + 1) / 2;
+
+            var g = ((hash >> 8) & 0xFF) / 255.0f;
+            g = (g + 1) / 2;
+
+            var b = ((hash >> 16) & 0xFF) / 255.0f;
+            b = (b + 1) / 2;
+
+            return new Color(r, g, b);
+        }
+    }
 
     public Cliche(string text)
     {
@@ -47,11 +67,11 @@ public class Cliche
 public class ClicheCityStats
 {
     public float catchiness;
-    public float spreadPercentage;
+    public float spread;
 
-    public ClicheCityStats(float catchiness, float spreadPercentage)
+    public ClicheCityStats(float catchiness, float spread)
     {
         this.catchiness = catchiness;
-        this.spreadPercentage = spreadPercentage;
+        this.spread = spread;
     }
 }
