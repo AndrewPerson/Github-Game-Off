@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bkkdeol0jhe5q"]
+
+[ext_resource type="Shader" path="res://Game/City/Connection/Connection.gdshader" id="1_iks2d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p3b0w"]
+shader = ExtResource("1_iks2d")
+shader_parameter/dash_count = 7.0
+shader_parameter/dash_width = 0.05
+shader_parameter/size = Vector2(2, 1)
+shader_parameter/time_scale = 1.0
+
+[node name="Connection" type="ColorRect"]
+material = SubResource("ShaderMaterial_p3b0w")
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -648.0
+offset_right = 200.0
+offset_bottom = -548.0
+grow_vertical = 0
