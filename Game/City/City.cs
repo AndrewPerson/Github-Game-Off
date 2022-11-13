@@ -87,6 +87,12 @@ public class City
             }
         }
 
+        //To compensate for precision errors.
+        if (clicheStats.Count == 1)
+        {
+            clicheStats[clicheStats.Keys.First()].spread = 1;
+        }
+
         OnUpdateCliches?.Invoke();
     }
 
@@ -95,7 +101,7 @@ public class City
         var newConnection = new Connection(this, other);
 
         connections.Add(newConnection);
-        other.connections.Add(newConnection);
+        newConnection.SpreadProducedCliche();
 
         OnUpdateConnections?.Invoke();
     }
@@ -177,8 +183,8 @@ public class City
 
     public static bool operator ==(City? lhs, City? rhs)
     {
-        if (lhs == null) return rhs == null;
-        if (rhs == null) return lhs == null;
+        if (lhs is null) return rhs is null;
+        if (rhs is null) return lhs is null;
 
         return lhs.Equals(rhs);
     }

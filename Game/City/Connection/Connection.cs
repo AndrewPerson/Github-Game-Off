@@ -17,6 +17,7 @@ public class Connection
     public City from;
     public City to;
     public float Length => (to.position - from.position).Length();
+    public float Angle => (to.position - from.position).Angle();
 
     public Connection(City from, City to)
     {

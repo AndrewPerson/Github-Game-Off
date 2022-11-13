@@ -7,19 +7,19 @@ public partial class CityNode : Node2D
 	[Export]
 	public PackedScene indicatorSliceTemplate = null!;
 
+	[Export]
+	public PackedScene connectionTemplate = null!;
+
 	public City city = null!;
 	private RichTextLabel nameLabel = null!;
-	private Control indicator = null!;
+	private Node indicator = null!;
+	private Node connections = null!;
 	
     public override void _Ready()
     {
-		//DEBUG code. Remove when done
-		city.clicheStats[new Cliche("Cliche A")] = new ClicheCityStats(0.5f, 0.4f);
-		city.clicheStats[new Cliche("Cliche B")] = new ClicheCityStats(0.3f, 0.3f);
-		city.clicheStats[new Cliche("Cliche C")] = new ClicheCityStats(0.2f, 0.3f);
-
 		nameLabel = (RichTextLabel)FindChild("Name");
-		indicator = (Control)FindChild("Indicator");
+		indicator = FindChild("Indicator");
+		connections = FindChild("Connections");
 
 		Position = city.position;
 
@@ -28,8 +28,10 @@ public partial class CityNode : Node2D
 		nameLabel.Pop();
 
 		city.OnUpdateCliches += UpdateIndicator;
+		city.OnUpdateConnections += UpdateConnections;
 
 		UpdateIndicator();
+		UpdateConnections();
     }
 
 	private void UpdateIndicator()
@@ -63,6 +65,34 @@ public partial class CityNode : Node2D
 			slice.PercentageOffset = cumulativePercentage;
 
 			cumulativePercentage += stats.spread;
+
+			index++;
+		}
+	}
+
+	private void UpdateConnections()
+	{
+		for (int i = connections.GetChildCount() - 1; i >= city.connections.Count; i--)
+		{
+			connections.GetChild(i).QueueFree();
+		}
+
+		int index = 0;
+		foreach (var connection in city.connections)
+		{
+			if (index < connections.GetChildCount())
+			{
+				var connectionNode = (ConnectionNode)connections.GetChild(index);
+				connectionNode.connection = connection;
+			}
+			else
+			{
+				var connectionNode = (ConnectionNode)connectionTemplate.Instantiate();
+
+				connectionNode.connection = connection;
+
+				connections.AddChild(connectionNode);
+			}
 
 			index++;
 		}

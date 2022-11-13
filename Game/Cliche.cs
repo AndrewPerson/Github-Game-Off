@@ -52,8 +52,8 @@ public class Cliche
 
     public static bool operator ==(Cliche? lhs, Cliche? rhs)
     {
-        if (lhs == null) return rhs == null;
-        if (rhs == null) return lhs == null;
+        if (lhs is null) return rhs is null;
+        if (rhs is null) return lhs is null;
 
         return lhs.Equals(rhs);
     }

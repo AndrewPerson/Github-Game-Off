@@ -46,11 +46,23 @@ public partial class GameNode : Node
 
     private List<City> GenerateCities()
     {
-        return new List<City>
+        var cities = new List<City>
         {
-            new City("Clichepolis A", new Vector2(0, 0)),
-            new City("Clichepolis B", new Vector2(500, 300))
+            new City("Clichepolis A", new Vector2(100, 100)),
+            new City("Clichepolis B", new Vector2(600, 600))
         };
+
+        foreach (var city in cities)
+        {
+            //DEBUG code. Remove when done
+            city.clicheStats[new Cliche("Cliche A")] = new ClicheCityStats(0.5f, 0.4f);
+            city.clicheStats[new Cliche("Cliche B")] = new ClicheCityStats(0.3f, 0.3f);
+            city.clicheStats[new Cliche("Cliche C")] = new ClicheCityStats(0.2f, 0.3f);
+        }
+		
+        cities[0].ConnectTo(cities[1]);
+
+        return cities;
     }
 
     private void RenderCities()

@@ -1,22 +1,28 @@
-[gd_scene load_steps=5 format=3 uid="uid://br7dtu3nfbtb2"]
+[gd_scene load_steps=6 format=3 uid="uid://br7dtu3nfbtb2"]
 
 [ext_resource type="Script" path="res://Game/City/CityNode.cs" id="1_3pp8r"]
 [ext_resource type="PackedScene" uid="uid://ckc7j8yw44axl" path="res://Game/City/IndicatorSlice.tscn" id="2_xl0f4"]
 [ext_resource type="Shader" path="res://Game/City/IndicatorSlice.gdshader" id="2_y7t4t"]
+[ext_resource type="PackedScene" uid="uid://bkkdeol0jhe5q" path="res://Game/City/Connection/Connection.tscn" id="3_eoqiq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5vt68"]
 shader = ExtResource("2_y7t4t")
 shader_parameter/colour = Color(1, 1, 1, 1)
+shader_parameter/outline_colour = null
+shader_parameter/outline_thickness = null
 shader_parameter/percentage = 1.0
 shader_parameter/percentage_offset = null
 
 [node name="City" type="Node2D"]
 script = ExtResource("1_3pp8r")
 indicatorSliceTemplate = ExtResource("2_xl0f4")
+connectionTemplate = ExtResource("3_eoqiq")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-offset_right = 120.0
-offset_bottom = 120.0
+offset_left = -60.0
+offset_top = -74.0
+offset_right = 60.0
+offset_bottom = 46.0
 
 [node name="Name" type="RichTextLabel" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 24)
@@ -29,6 +35,19 @@ offset_top = 28.0
 offset_right = 120.0
 offset_bottom = 120.0
 size_flags_vertical = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/IndicatorContainer"]
+offset_left = 14.0
+offset_right = 106.0
+offset_bottom = 92.0
+
+[node name="Connections" type="Control" parent="VBoxContainer/IndicatorContainer/CenterContainer"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 46.0
+offset_top = 46.0
+offset_right = 46.0
+offset_bottom = 46.0
 
 [node name="Indicator" type="ColorRect" parent="VBoxContainer/IndicatorContainer"]
 material = SubResource("ShaderMaterial_5vt68")
