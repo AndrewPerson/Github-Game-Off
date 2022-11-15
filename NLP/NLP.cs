@@ -35,8 +35,8 @@ static class Normaliser
                                             t.POS == PartOfSpeech.VERB)
                                 .Select(t => lemmatiser.GetLemma(t))
                                 .Select(w => new string(w.ToLower()
-                                                            .Where(c => char.IsLetterOrDigit(c))
-                                                            .ToArray()))
+                                                         .Where(c => char.IsLetterOrDigit(c))
+                                                         .ToArray()))
                                 .ToArray();
     }
 }
