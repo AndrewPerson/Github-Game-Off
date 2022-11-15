@@ -33,7 +33,7 @@ public partial class GameNode : Node
     {
         base.Dispose(disposing);
 
-        timer.Dispose();
+        if (disposing) timer.Dispose();
     }
 
     private void OnTimerElapsed()
