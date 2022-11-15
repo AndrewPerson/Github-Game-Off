@@ -26,15 +26,11 @@ public partial class ScrollingCameraNode : Camera2D
 
     public override void _Ready()
     {
-        base._Ready();
-
         FloatZoom = minZoom;
     }
 
     public override void _Process(double delta)
     {
-        base._Process(delta);
-
         float forwards = Input.GetActionStrength("backwards") - Input.GetActionStrength("forwards");
         float left = Input.GetActionStrength("right") - Input.GetActionStrength("left");
 
