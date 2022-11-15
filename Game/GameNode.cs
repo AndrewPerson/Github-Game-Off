@@ -15,7 +15,7 @@ public partial class GameNode : Node
     public List<City> cities = new();
     public List<Cliche> cliches = new();
 
-    public Timer timer = new();
+    private readonly Timer timer = new();
 
     public override void _Ready()
     {
