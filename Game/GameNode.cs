@@ -17,14 +17,17 @@ public partial class GameNode : Node
 
     private readonly Timer timer = new();
 
-    public override void _Ready()
+    public GameNode()
     {
         Instance = this;
 
         timer.Interval = 200;
-        timer.Elapsed += (sender, e) => OnTimerElapsed();
+        timer.Elapsed += (_, _) => OnTimerElapsed();
         timer.Start();
+    }
 
+    public override void _Ready()
+    {
         cities = GenerateCities();
         RenderCities();
     }
