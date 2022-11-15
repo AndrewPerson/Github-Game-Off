@@ -26,8 +26,8 @@ static class Normaliser
     public static async Task<string[]> NormalisePhrase(string phrase)
     {
         var nlp = await Pipeline.ForAsync(Language.English);
-        var doc = new Document(phrase, Language.English);
-        nlp.ProcessSingle(doc);
+        IDocument doc = new Document(phrase, Language.English);
+        doc = nlp.ProcessSingle(doc);
 
         return doc.ToTokenList().Where(t => t.POS == PartOfSpeech.ADJ ||
                                             t.POS == PartOfSpeech.ADV ||
