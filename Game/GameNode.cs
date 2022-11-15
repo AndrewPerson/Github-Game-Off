@@ -7,72 +7,101 @@ namespace Game;
 
 public partial class GameNode : Node
 {
-    public static GameNode Instance { get; private set; } = null!;
+	public static GameNode Instance { get; private set; } = null!;
 
-    [Export]
-    public PackedScene cityTemplate = null!;
+	[Export]
+	public int totalCities = 40;
 
-    public List<City> cities = new();
-    public List<Cliche> cliches = new();
+	[Export]
+	public PackedScene cityTemplate = null!;
 
-    public Timer timer = new();
+	public List<City> cities = new();
+	public List<Cliche> cliches = new();
 
-    public override void _Ready()
-    {
-        Instance = this;
+	public Timer timer = new();
 
-        timer.Interval = 200;
-        timer.Elapsed += (sender, e) => OnTimerElapsed();
-        timer.Start();
+	public override void _Ready()
+	{
+		Instance = this;
 
-        cities = GenerateCities();
-        RenderCities();
-    }
+		timer.Interval = 200;
+		timer.Elapsed += (sender, e) => OnTimerElapsed();
+		timer.Start();
 
-    protected override void Dispose(bool disposing)
-    {
-        base.Dispose(disposing);
+		cities = GenerateCities();
+		RenderCities();
+	}
 
-        timer.Dispose();
-    }
+	protected override void Dispose(bool disposing)
+	{
+		base.Dispose(disposing);
 
-    private void OnTimerElapsed()
-    {
-        foreach (var city in cities)
-        {
-            city.CalculateInternalClicheSpreads();
-        }
-    }
+		timer.Dispose();
+	}
 
-    private List<City> GenerateCities()
-    {
-        var cities = new List<City>
-        {
-            new City("Clichepolis A", new Vector2(100, 100)),
-            new City("Clichepolis B", new Vector2(600, 600))
-        };
+	private void OnTimerElapsed()
+	{
+		foreach (var city in cities)
+		{
+			city.CalculateInternalClicheSpreads();
+		}
+	}
 
-        foreach (var city in cities)
-        {
-            //DEBUG code. Remove when done
-            city.clicheStats[new Cliche("Cliche A")] = new ClicheCityStats(0.5f, 0.4f);
-            city.clicheStats[new Cliche("Cliche B")] = new ClicheCityStats(0.3f, 0.3f);
-            city.clicheStats[new Cliche("Cliche C")] = new ClicheCityStats(0.2f, 0.3f);
-        }
-		
-        cities[0].ConnectTo(cities[1]);
+	private List<City> GenerateCities()
+	{
+		//generate cities
+		var cities = new List<City> { };
+		//add first city
+		cities.Add(new City("Clichepolis 1", new Vector2(GD.RandRange(-1500, 1500), GD.RandRange(-1500, 1500))));
+		//add the rest
+		for (int i = 2; i <= totalCities; i++)
+		{
+			string cityName = "Clichepolis " + i;
+			var position = new Vector2(GD.RandRange(-1500, 1500), GD.RandRange(-1500, 1500));
+			//go through the list of cities, and if the position is tooClose, then we need to generate a new position
+			int endOfList = 0;
+			while (endOfList < cities.Count)
+			{
+				for (int city = 0; city < cities.Count; city++)
+				{
+					endOfList++;
+					if (cities[city].position.DistanceTo(position) < 400)
+					{
+						city = cities.Count;
+						endOfList = 0;
+						position = new Vector2(GD.RandRange(-1500, 1500), GD.RandRange(-1500, 1500));
+					}
+				}
+			}
+			cities.Add(new City(cityName, position));
+		}
+		/*var cities = new List<City>
+		{
+			new City("Clichepolis A", new Vector2(100, 100)),
+			new City("Clichepolis B", new Vector2(600, 600))
+		};*/
 
-        return cities;
-    }
+		foreach (var city in cities)
+		{
+			//DEBUG code. Remove when done
+			city.clicheStats[new Cliche("Cliche A")] = new ClicheCityStats(0.5f, 0.4f);
+			city.clicheStats[new Cliche("Cliche B")] = new ClicheCityStats(0.3f, 0.3f);
+			city.clicheStats[new Cliche("Cliche C")] = new ClicheCityStats(0.2f, 0.3f);
+		}
 
-    private void RenderCities()
-    {
-        foreach (var city in cities)
-        {
-            var node = cityTemplate.Instantiate<CityNode>();
-            node.city = city;
+		cities[0].ConnectTo(cities[1]);
 
-            AddChild(node);
-        }
-    }
-}  
+		return cities;
+	}
+
+	private void RenderCities()
+	{
+		foreach (var city in cities)
+		{
+			var node = cityTemplate.Instantiate<CityNode>();
+			node.city = city;
+
+			AddChild(node);
+		}
+	}
+}
