@@ -82,12 +82,12 @@ public partial class CityNode : Node2D
 		{
 			if (index < connections.GetChildCount())
 			{
-				var connectionNode = (ConnectionNode)connections.GetChild(index);
+				var connectionNode = connections.GetChild<ConnectionNode>(index);
 				connectionNode.connection = connection;
 			}
 			else
 			{
-				var connectionNode = (ConnectionNode)connectionTemplate.Instantiate();
+				var connectionNode = connectionTemplate.Instantiate<ConnectionNode>();
 
 				connectionNode.connection = connection;
 
