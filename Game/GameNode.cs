@@ -18,26 +18,29 @@ public partial class GameNode : Node
 	public List<City> cities = new();
 	public List<Cliche> cliches = new();
 
-	public Timer timer = new();
+    public Timer timer = new();
 
-	public override void _Ready()
-	{
-		Instance = this;
+    public GameNode()
+    {
+        Instance = this;
 
-		timer.Interval = 200;
-		timer.Elapsed += (sender, e) => OnTimerElapsed();
-		timer.Start();
+        timer.Interval = 200;
+        timer.Elapsed += (_, _) => OnTimerElapsed();
+        timer.Start();
+    }
 
-		cities = GenerateCities();
-		RenderCities();
-	}
+    public override void _Ready()
+    {
+        cities = GenerateCities();
+        RenderCities();
+    }
 
 	protected override void Dispose(bool disposing)
 	{
 		base.Dispose(disposing);
 
-		timer.Dispose();
-	}
+        if (disposing) timer.Dispose();
+    }
 
 	private void OnTimerElapsed()
 	{

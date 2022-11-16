@@ -14,6 +14,6 @@ public partial class ConnectionNode : ColorRect
 		Position = new Vector2(0, -PivotOffset.y);
 		Rotation = connection.Angle;
 
-		((ShaderMaterial)Material).SetShaderParameter("size", dist / 100);
+		((ShaderMaterial)Material).SetShaderParameter("size", new Vector2(dist / Size.y, 1));
 	}
 }

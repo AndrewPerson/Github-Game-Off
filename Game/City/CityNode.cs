@@ -14,6 +14,8 @@ public partial class CityNode : Node2D
 	private RichTextLabel nameLabel = null!;
 	private Node indicator = null!;
 	private Node connections = null!;
+
+	private bool hovering;
 	
     public override void _Ready()
     {
@@ -82,12 +84,12 @@ public partial class CityNode : Node2D
 		{
 			if (index < connections.GetChildCount())
 			{
-				var connectionNode = (ConnectionNode)connections.GetChild(index);
+				var connectionNode = connections.GetChild<ConnectionNode>(index);
 				connectionNode.connection = connection;
 			}
 			else
 			{
-				var connectionNode = (ConnectionNode)connectionTemplate.Instantiate();
+				var connectionNode = connectionTemplate.Instantiate<ConnectionNode>();
 
 				connectionNode.connection = connection;
 
@@ -97,4 +99,19 @@ public partial class CityNode : Node2D
 			index++;
 		}
 	}
+
+	public void OnMouseEnter() => hovering = true;
+
+	public void OnMouseExit() => hovering = false;
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventMouseButton mouseButton)
+		{
+			if (mouseButton.IsPressed() && hovering)
+			{
+				GD.Print(city.name);
+			}
+		}
+    }
 }

@@ -5,9 +5,9 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p3b0w"]
 shader = ExtResource("1_iks2d")
-shader_parameter/dash_count = 3.0
-shader_parameter/dash_width = 1.0
-shader_parameter/size = 2.0
+shader_parameter/dash_count = 6.0
+shader_parameter/dash_width = 0.2
+shader_parameter/size = Vector2(10, 1)
 shader_parameter/time_scale = 1.0
 
 [node name="Connection" type="ColorRect"]
@@ -18,10 +18,10 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -576.0
-offset_top = -329.0
-offset_right = -376.0
-offset_bottom = -319.0
+offset_top = -349.0
+offset_right = 424.0
+offset_bottom = -299.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(0, 5)
+pivot_offset = Vector2(0, 50)
 script = ExtResource("2_tq8ae")
