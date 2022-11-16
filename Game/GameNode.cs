@@ -50,36 +50,37 @@ public partial class GameNode : Node
 	private List<City> GenerateCities()
 	{
 		//generate cities
-		var cities = new List<City> { };
-		//add first city
-		cities.Add(new City("Clichepolis 1", new Vector2(GD.RandRange(-1500, 1500), GD.RandRange(-1500, 1500))));
-		//add the rest
-		for (int i = 2; i <= totalCities; i++)
+		var cities = new List<City>();
+
+		for (int i = 0; i < totalCities; i++)
 		{
-			string cityName = "Clichepolis " + i;
-			var position = new Vector2(GD.RandRange(-1500, 1500), GD.RandRange(-1500, 1500));
-			//go through the list of cities, and if the position is tooClose, then we need to generate a new position
-			int endOfList = 0;
-			while (endOfList < cities.Count)
+			var cityName = $"Clichepolis {i + 1}";
+			var cityPosition = new Vector2(GD.RandRange(-1500, 1500), GD.RandRange(-1500, 1500));
+		
+			var tooClose = false;
+
+			do
 			{
-				for (int city = 0; city < cities.Count; city++)
+				tooClose = false;
+
+				foreach (var city in cities)
 				{
-					endOfList++;
-					if (cities[city].position.DistanceTo(position) < 400)
+					if (cityPosition.DistanceTo(city.position) < 400)
 					{
-						city = cities.Count;
-						endOfList = 0;
-						position = new Vector2(GD.RandRange(-1500, 1500), GD.RandRange(-1500, 1500));
+						tooClose = true;
+						break;
 					}
 				}
+
+				if (tooClose)
+				{
+					cityPosition = new Vector2(GD.RandRange(-1500, 1500), GD.RandRange(-1500, 1500));
+				}
 			}
-			cities.Add(new City(cityName, position));
+			while (tooClose);
+
+			cities.Add(new City(cityName, cityPosition));
 		}
-		/*var cities = new List<City>
-		{
-			new City("Clichepolis A", new Vector2(100, 100)),
-			new City("Clichepolis B", new Vector2(600, 600))
-		};*/
 
 		foreach (var city in cities)
 		{
