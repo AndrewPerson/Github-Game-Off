@@ -102,10 +102,10 @@ public partial class GameNode : Node
 			cityName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(cityName);
 
             // Generate a random position for the city
-			var cityPosition = new Vector2(GD.RandRange(mapHeight/2 , - mapHeight/2), GD.RandRange(mapWidth/2 , - mapWidth/2));
+			var cityPosition = new Vector2(GD.RandRange(mapHeight / 2 , mapHeight / -2), GD.RandRange(mapWidth / 2 , mapWidth / -2));
 			while (cities.Any(city => city.position.DistanceTo(cityPosition) < 400))
 			{
-				cityPosition = new Vector2(GD.RandRange(mapHeight/2 , - mapHeight/2), GD.RandRange(mapWidth/2 , - mapWidth/2));
+				cityPosition = new Vector2(GD.RandRange(mapHeight / 2 , mapHeight / -2), GD.RandRange(mapWidth / 2 , mapWidth / -2));
 			}
 
 			//TODO Generate like vectors
