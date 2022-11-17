@@ -24,6 +24,12 @@ public partial class GameNode : Node
 	public int totalCities = 40;
 
 	[Export]
+	public int minCityNameSyllables = 3;
+
+	[Export]
+	public int maxCityNameSyllables = 5;
+
+	[Export]
 	public PackedScene cityTemplate = null!;
 
 	public List<City> cities = new();
@@ -63,17 +69,27 @@ public partial class GameNode : Node
 
 	private List<City> GenerateCities()
 	{
+		var usedNames = new HashSet<string>();
 		var cities = new List<City>();
 
 		for (int i = 0; i < totalCities; i++)
 		{
 			var cityNameBuilder = new StringBuilder();
-			for (int x = 0; x < 4; x++)
+			var syllableCount = GD.RandRange(minCityNameSyllables, maxCityNameSyllables);
+			for (int x = 0; x < syllableCount; x++)
 			{
 				cityNameBuilder.Append(cityNameSyllables[GD.Randi() % cityNameSyllables.Length]);
 			}
 
 			var cityName = cityNameBuilder.ToString();
+
+			while (usedNames.Contains(cityName))
+			{
+				cityName = $"New {cityName}";
+			}
+
+			usedNames.Add(cityName);
+
 			cityName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(cityName);
 			var cityPosition = new Vector2(GD.RandRange(-1500, 1500), GD.RandRange(-1500, 1500));
 		
