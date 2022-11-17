@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 project/assembly_name="Github Game Off"
 
+[gui]
+
+theme/custom="res://DefaultTheme.tres"
+
 [input]
 
 forwards={

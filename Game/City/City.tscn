@@ -20,26 +20,26 @@ connectionTemplate = ExtResource("3_eoqiq")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 offset_left = -60.0
-offset_top = -74.0
+offset_top = -72.0
 offset_right = 60.0
-offset_bottom = 46.0
+offset_bottom = 48.0
 
 [node name="Name" type="RichTextLabel" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 24)
+custom_minimum_size = Vector2(0, 22)
 offset_right = 120.0
-offset_bottom = 24.0
+offset_bottom = 22.0
 bbcode_enabled = true
 
 [node name="IndicatorContainer" type="AspectRatioContainer" parent="VBoxContainer"]
-offset_top = 28.0
+offset_top = 26.0
 offset_right = 120.0
 offset_bottom = 120.0
 size_flags_vertical = 3
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/IndicatorContainer"]
-offset_left = 14.0
-offset_right = 106.0
-offset_bottom = 92.0
+offset_left = 13.0
+offset_right = 107.0
+offset_bottom = 94.0
 
 [node name="Connections" type="CanvasLayer" parent="VBoxContainer/IndicatorContainer/CenterContainer"]
 layer = -1
@@ -47,9 +47,9 @@ follow_viewport_enabled = true
 
 [node name="Indicator" type="ColorRect" parent="VBoxContainer/IndicatorContainer"]
 material = SubResource("ShaderMaterial_5vt68")
-offset_left = 14.0
-offset_right = 106.0
-offset_bottom = 92.0
+offset_left = 13.0
+offset_right = 107.0
+offset_bottom = 94.0
 
 [connection signal="mouse_entered" from="VBoxContainer/IndicatorContainer/Indicator" to="." method="OnMouseEnter"]
 [connection signal="mouse_exited" from="VBoxContainer/IndicatorContainer/Indicator" to="." method="OnMouseExit"]

@@ -1,0 +1,25 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://y03v5tyfcup5"]
+
+[ext_resource type="FontFile" uid="uid://ctv4grb7qw8ud" path="res://Blex Mono Nerd Font Complete Mono.ttf" id="1_nblv1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ntkwn"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.0980392, 0.0980392, 0.0980392, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.231373, 0.231373, 0.231373, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 5
+
+[resource]
+default_font = ExtResource("1_nblv1")
+default_font_size = 14
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_ntkwn")
