@@ -95,6 +95,7 @@ public partial class GameNode : Node
 		}
 
 		cities[0].ConnectTo(cities[1]);
+        cities[1].ConnectTo(cities[0]);
 
 		return cities;
 	}
