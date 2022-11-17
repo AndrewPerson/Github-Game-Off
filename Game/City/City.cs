@@ -43,6 +43,7 @@ public class City
         
         var summedCatchiness = 0f;
         var catchinessCount = 0;
+        var freeSpace = 1 - clicheStats.Sum(x => x.Value.spread);
 
         for (int i = 0; i < sortedCliches.Length; i++)
         {
@@ -75,6 +76,10 @@ public class City
                     stats2.spread -= spreadLoss;
                 }
             }
+
+            var usedSpace = MathF.Min(freeSpace, spread);
+            actualSpread += usedSpace;
+            freeSpace -= usedSpace;
 
             sortedCliches[i].Value.spread += actualSpread;
 
