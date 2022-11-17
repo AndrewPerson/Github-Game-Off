@@ -89,7 +89,7 @@ public partial class GameNode : Node
 		foreach (var city in cities)
 		{
 			//DEBUG code. Remove when done
-			city.clicheStats[new Cliche("Cliche A")] = new ClicheCityStats(0.5f, 0.4f);
+			city.clicheStats[new Cliche("Cliche A")] = new ClicheCityStats(0.5f, 0.1f);
 			city.clicheStats[new Cliche("Cliche B")] = new ClicheCityStats(0.3f, 0.3f);
 			city.clicheStats[new Cliche("Cliche C")] = new ClicheCityStats(0.2f, 0.3f);
 		}
