@@ -11,7 +11,7 @@ public partial class ConnectionNode : ColorRect
 	{
 		float dist = connection.Length;
 		Size = new Vector2(dist, Size.y);
-		Position = new Vector2(0, -PivotOffset.y);
+		Position = connection.from.position + new Vector2(0, -PivotOffset.y);
 		Rotation = connection.Angle;
 
 		((ShaderMaterial)Material).SetShaderParameter("size", new Vector2(dist / Size.y, 1));
