@@ -82,7 +82,8 @@ public partial class GameNode : Node
 				cityPosition = new Vector2(GD.RandRange(-1500, 1500), GD.RandRange(-1500, 1500));
 			}
 
-			cities.Add(new City(cityName, cityPosition));
+			//TODO Generate like vectors
+			cities.Add(new City(cityName, cityPosition, new()));
 		}
 
 		foreach (var city in cities)

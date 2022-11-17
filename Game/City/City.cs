@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Proxem.NumNet;
 
 namespace Game;
 
@@ -14,6 +15,7 @@ public class City
 
     public string name;
     public Vector2 position;
+    public List<Array<float>> likeVectors = new();
     public List<Connection> connections = new();
     public Dictionary<Cliche, ClicheCityStats> clicheStats = new();
 
@@ -28,10 +30,11 @@ public class City
         }
     }    
 
-    public City(string name, Vector2 position)
+    public City(string name, Vector2 position, List<Array<float>> likeVectors)
     {
         this.name = name;
         this.position = position;
+        this.likeVectors = likeVectors;
     }
 
     public void CalculateInternalClicheSpreads()
