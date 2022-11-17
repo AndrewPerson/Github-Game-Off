@@ -14,6 +14,7 @@ public partial class CityNode : Node2D
 	private RichTextLabel nameLabel = null!;
 	private Node indicator = null!;
 	private Node connections = null!;
+	private ClicheListNode clicheList = null!;
 
 	private bool hovering;
 	
@@ -22,6 +23,7 @@ public partial class CityNode : Node2D
 		nameLabel = (RichTextLabel)FindChild("Name");
 		indicator = FindChild("Indicator");
 		connections = FindChild("Connections");
+		clicheList = (ClicheListNode)FindChild("ClicheList");
 
 		Position = city.position;
 
@@ -31,6 +33,9 @@ public partial class CityNode : Node2D
 
 		city.OnUpdateCliches += UpdateIndicator;
 		city.OnUpdateConnections += UpdateConnections;
+
+		clicheList.City = city;
+		clicheList.Visible = false;
 
 		UpdateIndicator();
 		UpdateConnections();
@@ -108,9 +113,10 @@ public partial class CityNode : Node2D
     {
         if (@event is InputEventMouseButton mouseButton)
 		{
-			if (mouseButton.IsPressed() && hovering)
+			if (mouseButton.ButtonIndex == MouseButton.Left && mouseButton.IsPressed())
 			{
-				GD.Print(city.name);
+				if (hovering) clicheList.Visible = !clicheList.Visible;
+				else clicheList.Visible = false;
 			}
 		}
     }
