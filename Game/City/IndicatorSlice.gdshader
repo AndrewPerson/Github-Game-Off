@@ -1,7 +1,5 @@
 shader_type canvas_item;
 
-uniform vec4 colour : source_color;
-uniform vec4 outline_colour : source_color = vec4(0, 0, 0, 1);
 uniform float percentage;
 uniform float percentage_offset;
 uniform float outline_thickness = 0.05;
@@ -33,34 +31,69 @@ void fragment() {
 	vec2 line2_end = vec2(sin(line2_degrees), cos(line2_degrees));
 	float line2_dist = dist_to_line(shiftedUV, line2_end);
 	
-	if (polarUV.x <= 1.0 && polarUV.y > percentage_offset && polarUV.y < percentage + percentage_offset) {
-		if (percentage >= 1.0) {
-			if (polarUV.x >= 1.0 - outline_thickness && polarUV.x <= 1.0) {
-				COLOR = outline_colour;
+	float shifted_percentage = percentage_offset + percentage;
+	
+	float line1_angle_dist = min(abs(1.0 + percentage_offset - polarUV.y), abs(polarUV.y - percentage_offset));
+	float line2_angle_dist = min(abs(1.0 + shifted_percentage - polarUV.y), abs(polarUV.y - shifted_percentage));
+	
+	if (polarUV.x <= 1.0) {
+		if (percentage < 1.0) {
+			if (line1_dist < outline_thickness / 2.0 && line1_angle_dist <= .25) {
+				COLOR = vec4(0, 0, 0, 1);
 			}
-			else {
-				COLOR = colour;
+			else if (line2_dist < outline_thickness / 2.0 && line2_angle_dist <= .25) {
+				COLOR = vec4(0, 0, 0, 1);
+			}
+			else if (1.0 - polarUV.x <= outline_thickness && polarUV.y >= percentage_offset && polarUV.y <= percentage + percentage_offset) {
+				COLOR = vec4(0, 0, 0, 1);
+			}
+			else if (polarUV.x <= outline_thickness / 2.0) {
+				COLOR = vec4(0, 0, 0, 1);
+			}
+			else if (!(polarUV.y >= percentage_offset && polarUV.y <= percentage + percentage_offset)) {
+				discard;
 			}
 		}
 		else {
-			if (polarUV.x >= 1.0 - outline_thickness && polarUV.x <= 1.0) {
-				COLOR = outline_colour;
+			if (1.0 - polarUV.x <= outline_thickness) {
+				COLOR = vec4(0, 0, 0, 1);
 			}
-			else if (polarUV.y < percentage_offset + .25 && line1_dist < outline_thickness / 2.0) {
-				COLOR = outline_colour;
+			else if (polarUV.x <= outline_thickness / 2.0) {
+				COLOR = vec4(0, 0, 0, 1);
 			}
-			else if (polarUV.y > percentage_offset + percentage - .25 && line2_dist < outline_thickness / 2.0) {
-				COLOR = outline_colour;
-			}
-			else if (abs(polarUV.x) < outline_thickness / 2.0) {
-				COLOR = outline_colour;
-			}
-			else {
-				COLOR = colour;
+			else if (!(polarUV.y >= percentage_offset && polarUV.y <= percentage + percentage_offset)) {
+				discard;
 			}
 		}
 	}
 	else {
 		discard;
 	}
+	
+	/*
+	if (polarUV.x <= 1.0 && polarUV.y > percentage_offset && polarUV.y < percentage + percentage_offset) {
+		if (percentage >= 1.0) {
+			if (polarUV.x >= 1.0 - outline_thickness && polarUV.x <= 1.0) {
+				COLOR = vec4(0, 0, 0, 1);
+			}
+		}
+		else {
+			if (polarUV.x >= 1.0 - outline_thickness && polarUV.x <= 1.0) {
+				COLOR = vec4(0, 0, 0, 1);
+			}
+			else if (polarUV.y < percentage_offset + .25 && line1_dist < outline_thickness) {
+				COLOR = vec4(0, 0, 0, 1);
+			}
+			else if (polarUV.y > percentage_offset + percentage - .25 && line2_dist < outline_thickness) {
+				COLOR = vec4(0, 0, 0, 1);
+			}
+			else if (abs(polarUV.x) < outline_thickness) {
+				COLOR = vec4(0, 0, 0, 1);
+			}
+		}
+	}
+	else {
+		discard;
+	}
+	*/
 }

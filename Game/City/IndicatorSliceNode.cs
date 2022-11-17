@@ -49,7 +49,7 @@ public partial class IndicatorSliceNode : ColorRect
         UpdatePercentageOffset();
     }
 
-    private void UpdateColour() => material.SetShaderParameter("colour", colour);
+    private void UpdateColour() => Color = colour;
 
     private void UpdatePercentage() => material.SetShaderParameter("percentage", percentage);
 

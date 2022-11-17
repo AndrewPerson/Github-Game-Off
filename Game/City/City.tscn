@@ -8,8 +8,6 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5vt68"]
 shader = ExtResource("2_y7t4t")
-shader_parameter/colour = Color(1, 1, 1, 1)
-shader_parameter/outline_colour = Color(0, 0, 0, 1)
 shader_parameter/outline_thickness = 0.05
 shader_parameter/percentage = 1.0
 shader_parameter/percentage_offset = null
