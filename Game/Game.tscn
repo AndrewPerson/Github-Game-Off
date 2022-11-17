@@ -14,3 +14,5 @@ cityTemplate = ExtResource("2_rqbad")
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 script = ExtResource("3_cq6an")
+
+[node name="Node" type="Node" parent="."]

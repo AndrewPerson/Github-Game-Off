@@ -3,6 +3,7 @@ using System.Linq;
 using System.Globalization;
 using System.Text;
 using System.Collections.Generic;
+using Proxem.Word2Vec;
 
 using Timer = System.Timers.Timer;
 
@@ -22,6 +23,14 @@ public partial class GameNode : Node
 
 	[Export]
 	public int totalCities = 40;
+
+    [Export]
+    public int numCityLikeVectors = 5;
+
+    [Export]
+    public int mapWidth= 3000;
+    [Export]
+    public int mapHeight = 3000;
 
 	[Export]
 	public int minCityNameSyllables = 3;
@@ -74,13 +83,13 @@ public partial class GameNode : Node
 
 		for (int i = 0; i < totalCities; i++)
 		{
+            // Generate a random name for the city
 			var cityNameBuilder = new StringBuilder();
 			var syllableCount = GD.RandRange(minCityNameSyllables, maxCityNameSyllables);
 			for (int x = 0; x < syllableCount; x++)
 			{
 				cityNameBuilder.Append(cityNameSyllables[GD.Randi() % cityNameSyllables.Length]);
 			}
-
 			var cityName = cityNameBuilder.ToString();
 
 			while (usedNames.Contains(cityName))
@@ -91,14 +100,22 @@ public partial class GameNode : Node
 			usedNames.Add(cityName);
 
 			cityName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(cityName);
-			var cityPosition = new Vector2(GD.RandRange(-1500, 1500), GD.RandRange(-1500, 1500));
-		
+
+            // Generate a random position for the city
+			var cityPosition = new Vector2(GD.RandRange(mapHeight/2 , - mapHeight/2), GD.RandRange(mapWidth/2 , - mapWidth/2));
 			while (cities.Any(city => city.position.DistanceTo(cityPosition) < 400))
 			{
-				cityPosition = new Vector2(GD.RandRange(-1500, 1500), GD.RandRange(-1500, 1500));
+				cityPosition = new Vector2(GD.RandRange(mapHeight/2 , - mapHeight/2), GD.RandRange(mapWidth/2 , - mapWidth/2));
 			}
 
 			//TODO Generate like vectors
+            var likeVectors = new List<Vector2>();
+            for (int x = 0; x < numCityLikeVectors; x++)
+            {
+                //TODO Get random vectors from word2vec
+            }
+
+            //Add City to list
 			cities.Add(new City(cityName, cityPosition, new()));
 		}
 
