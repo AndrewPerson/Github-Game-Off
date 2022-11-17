@@ -1,4 +1,7 @@
 using Godot;
+using System.Linq;
+using System.Globalization;
+using System.Text;
 using System.Collections.Generic;
 
 using Timer = System.Timers.Timer;
@@ -7,6 +10,14 @@ namespace Game;
 
 public partial class GameNode : Node
 {
+	public readonly string[] cityNameSyllables = new string[]
+	{
+		"ca", "do", "ica", "ip",
+		"lo", "lus", "ma", "mo",
+		"mus", "nu", "pi", "re",
+		"res", "ro", "sum", "te" 
+	};
+
 	public static GameNode Instance { get; private set; } = null!;
 
 	[Export]
@@ -52,35 +63,24 @@ public partial class GameNode : Node
 
 	private List<City> GenerateCities()
 	{
-		//generate cities
 		var cities = new List<City>();
 
 		for (int i = 0; i < totalCities; i++)
 		{
-			var cityName = $"Clichepolis {i + 1}";
+			var cityNameBuilder = new StringBuilder();
+			for (int x = 0; x < 4; x++)
+			{
+				cityNameBuilder.Append(cityNameSyllables[GD.Randi() % cityNameSyllables.Length]);
+			}
+
+			var cityName = cityNameBuilder.ToString();
+			cityName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(cityName);
 			var cityPosition = new Vector2(GD.RandRange(-1500, 1500), GD.RandRange(-1500, 1500));
 		
-			var tooClose = false;
-
-			do
+			while (cities.Any(city => city.position.DistanceTo(cityPosition) < 400))
 			{
-				tooClose = false;
-
-				foreach (var city in cities)
-				{
-					if (cityPosition.DistanceTo(city.position) < 400)
-					{
-						tooClose = true;
-						break;
-					}
-				}
-
-				if (tooClose)
-				{
-					cityPosition = new Vector2(GD.RandRange(-1500, 1500), GD.RandRange(-1500, 1500));
-				}
+				cityPosition = new Vector2(GD.RandRange(-1500, 1500), GD.RandRange(-1500, 1500));
 			}
-			while (tooClose);
 
 			cities.Add(new City(cityName, cityPosition));
 		}
