@@ -23,9 +23,9 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -300.0
+offset_left = -275.0
 offset_top = -25.0
-offset_right = -100.0
+offset_right = -75.0
 offset_bottom = 25.0
 grow_horizontal = 0
 grow_vertical = 2
@@ -38,17 +38,20 @@ offset_bottom = 48.0
 
 [node name="Name" type="RichTextLabel" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
 offset_right = 120.0
 offset_bottom = 22.0
 bbcode_enabled = true
 
 [node name="IndicatorContainer" type="AspectRatioContainer" parent="VBoxContainer"]
+layout_mode = 2
 offset_top = 26.0
 offset_right = 120.0
 offset_bottom = 120.0
 size_flags_vertical = 3
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/IndicatorContainer"]
+layout_mode = 2
 offset_left = 13.0
 offset_right = 107.0
 offset_bottom = 94.0
@@ -59,6 +62,7 @@ follow_viewport_enabled = true
 
 [node name="Indicator" type="ColorRect" parent="VBoxContainer/IndicatorContainer"]
 material = SubResource("ShaderMaterial_5vt68")
+layout_mode = 2
 offset_left = 13.0
 offset_right = 107.0
 offset_bottom = 94.0
