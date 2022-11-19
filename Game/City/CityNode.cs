@@ -90,13 +90,13 @@ public partial class CityNode : Node2D
 			if (index < connections.GetChildCount())
 			{
 				var connectionNode = connections.GetChild<ConnectionNode>(index);
-				connectionNode.connection = connection;
+				connectionNode.Connection = connection;
 			}
 			else
 			{
 				var connectionNode = connectionTemplate.Instantiate<ConnectionNode>();
 
-				connectionNode.connection = connection;
+				connectionNode.Connection = connection;
 
 				connections.AddChild(connectionNode);
 			}

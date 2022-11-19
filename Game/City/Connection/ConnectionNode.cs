@@ -1,13 +1,26 @@
 using Godot;
-using System;
 
 namespace Game;
 
 public partial class ConnectionNode : ColorRect
 {
-	public Connection connection = null!;
+	private Connection connection = null!;
+	public Connection Connection
+	{
+		get => connection;
+		set
+		{
+			connection = value;
+			UpdatePosition();
+		}
+	}
 
 	public override void _Ready()
+	{
+		UpdatePosition();
+	}
+
+	private void UpdatePosition()
 	{
 		float dist = connection.Length;
 		Size = new Vector2(dist, Size.y);
