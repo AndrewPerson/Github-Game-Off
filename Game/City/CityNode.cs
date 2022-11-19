@@ -105,9 +105,17 @@ public partial class CityNode : Node2D
 		}
 	}
 
-	public void OnMouseEnter() => hovering = true;
+	public void OnMouseEnter()
+	{
+		hovering = true;
+		clicheList.Visible = true;
+	}
 
-	public void OnMouseExit() => hovering = false;
+	public void OnMouseExit()
+	{
+		hovering = false;
+		clicheList.Visible = false;
+	}
 
     public override void _Input(InputEvent @event)
     {
@@ -115,8 +123,8 @@ public partial class CityNode : Node2D
 		{
 			if (mouseButton.ButtonIndex == MouseButton.Left && mouseButton.IsPressed())
 			{
-				if (hovering) clicheList.Visible = !clicheList.Visible;
-				else clicheList.Visible = false;
+				//TODO Start creating connections
+				return;
 			}
 		}
     }
