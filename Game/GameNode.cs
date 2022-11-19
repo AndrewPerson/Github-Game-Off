@@ -61,13 +61,6 @@ public partial class GameNode : Node
         RenderCities();
     }
 
-	protected override void Dispose(bool disposing)
-	{
-		base.Dispose(disposing);
-
-        if (disposing) timer.Dispose();
-    }
-
 	private void OnTimerElapsed()
 	{
 		foreach (var city in cities)
@@ -144,4 +137,11 @@ public partial class GameNode : Node
 			AddChild(node);
 		}
 	}
+
+	protected override void Dispose(bool disposing)
+	{
+		base.Dispose(disposing);
+
+        if (disposing) timer.Dispose();
+    }
 }
