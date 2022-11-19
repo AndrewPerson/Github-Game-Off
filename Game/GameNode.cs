@@ -84,18 +84,19 @@ public partial class GameNode : Node
 		for (int i = 0; i < totalCities; i++)
 		{
             // Generate a random name for the city
-			var cityNameBuilder = new StringBuilder();
-			var syllableCount = GD.RandRange(minCityNameSyllables, maxCityNameSyllables);
-			for (int x = 0; x < syllableCount; x++)
+			string cityName;
+			do
 			{
-				cityNameBuilder.Append(cityNameSyllables[GD.Randi() % cityNameSyllables.Length]);
-			}
-			var cityName = cityNameBuilder.ToString();
+				var cityNameBuilder = new StringBuilder();
+				var syllableCount = GD.RandRange(minCityNameSyllables, maxCityNameSyllables);
+				for (int x = 0; x < syllableCount; x++)
+				{
+					cityNameBuilder.Append(cityNameSyllables[GD.Randi() % cityNameSyllables.Length]);
+				}
 
-			while (usedNames.Contains(cityName))
-			{
-				cityName = $"New {cityName}";
+				cityName = cityNameBuilder.ToString();
 			}
+			while (usedNames.Contains(cityName));
 
 			usedNames.Add(cityName);
 
