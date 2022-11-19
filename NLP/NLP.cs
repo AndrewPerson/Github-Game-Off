@@ -2,8 +2,8 @@ using Proxem.NumNet.Single;
 using Proxem.Word2Vec;
 using Catalyst;
 using Mosaik.Core;
-using System.Linq;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NLP;
@@ -16,6 +16,15 @@ static class Word2VecImproved
         var v2 = p2.Select(w => self[w]).Aggregate((a, b) => a + b) / p2.Length;
 
         return (v1.VectorDot(v2) / MathF.Sqrt(v1.Sum(x => x * x)) * MathF.Sqrt(v2.Sum(x => x * x)) + 1) / 2;
+    }
+
+    public static int[] NClosestIndices(this Word2Vec self, string word, int n)
+    {
+        float[] bestDistances = new float[n];
+        int[] bestIndices = new int[n];
+        self.NBest(self[word], bestDistances, bestIndices);
+
+        return bestIndices;
     }
 }
 
