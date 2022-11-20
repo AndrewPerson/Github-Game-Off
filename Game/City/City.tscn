@@ -18,6 +18,7 @@ indicatorSliceTemplate = ExtResource("2_xl0f4")
 connectionTemplate = ExtResource("3_eoqiq")
 
 [node name="ClicheList" parent="." instance=ExtResource("4_vtvsr")]
+unique_name_in_owner = true
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
@@ -37,32 +38,32 @@ offset_right = 60.0
 offset_bottom = 48.0
 
 [node name="Name" type="RichTextLabel" parent="VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 22)
-layout_mode = 2
 offset_right = 120.0
 offset_bottom = 22.0
 bbcode_enabled = true
+text = "[center][color=green]Clichepolis[/color][/center]"
 
 [node name="IndicatorContainer" type="AspectRatioContainer" parent="VBoxContainer"]
-layout_mode = 2
 offset_top = 26.0
 offset_right = 120.0
 offset_bottom = 120.0
 size_flags_vertical = 3
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/IndicatorContainer"]
-layout_mode = 2
 offset_left = 13.0
 offset_right = 107.0
 offset_bottom = 94.0
 
 [node name="Connections" type="CanvasLayer" parent="VBoxContainer/IndicatorContainer/CenterContainer"]
+unique_name_in_owner = true
 layer = -1
 follow_viewport_enabled = true
 
 [node name="Indicator" type="ColorRect" parent="VBoxContainer/IndicatorContainer"]
+unique_name_in_owner = true
 material = SubResource("ShaderMaterial_5vt68")
-layout_mode = 2
 offset_left = 13.0
 offset_right = 107.0
 offset_bottom = 94.0

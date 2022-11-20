@@ -20,26 +20,34 @@ public partial class CityNode : Node2D
 	
     public override void _Ready()
     {
-		nameLabel = (RichTextLabel)FindChild("Name");
-		indicator = FindChild("Indicator");
-		connections = FindChild("Connections");
-		clicheList = (ClicheListNode)FindChild("ClicheList");
+		nameLabel = GetNode<RichTextLabel>("%Name");
+		indicator = GetNode("%Indicator");
+		connections = GetNode("%Connections");
+		clicheList = GetNode<ClicheListNode>("%ClicheList");
 
 		Position = city.position;
 
-		nameLabel.PushParagraph(HorizontalAlignment.Center, Control.TextDirection.Auto);
-		nameLabel.AddText(city.name);
-		nameLabel.Pop();
-
+		city.OnUpdateCliches += UpdateName;
 		city.OnUpdateCliches += UpdateIndicator;
 		city.OnUpdateConnections += UpdateConnections;
 
 		clicheList.City = city;
 		clicheList.Visible = false;
 
+		UpdateName();
 		UpdateIndicator();
 		UpdateConnections();
     }
+
+	private void UpdateName()
+	{
+		nameLabel.Clear();
+		nameLabel.PushParagraph(HorizontalAlignment.Center, Control.TextDirection.Auto);
+		nameLabel.PushColor(city.ControlledBy == GameNode.Instance.player ? new Color(0, 1, 0) : new Color(1, 0, 0));
+		nameLabel.AddText(city.name);
+		nameLabel.Pop();
+		nameLabel.Pop();
+	}
 
 	private void UpdateIndicator()
 	{
@@ -119,12 +127,27 @@ public partial class CityNode : Node2D
 
     public override void _Input(InputEvent @event)
     {
-        if (@event is InputEventMouseButton mouseButton)
+		if (hovering)
 		{
-			if (mouseButton.ButtonIndex == MouseButton.Left && mouseButton.IsPressed())
+			if (@event is InputEventMouseButton mouseButton)
 			{
-				//TODO Start creating connections
-				return;
+				if (mouseButton.ButtonIndex == MouseButton.Left)
+				{
+					if (GameNode.Instance.connectionCreator.creatingConnection)
+					{
+						if (!mouseButton.Pressed)
+						{
+							GameNode.Instance.connectionCreator.ToggleConnectionCreation(this);
+						}
+					}
+					else
+					{
+						if (mouseButton.Pressed)
+						{
+							GameNode.Instance.connectionCreator.ToggleConnectionCreation(this);
+						}
+					}
+				}
 			}
 		}
     }

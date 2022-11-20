@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Game;
@@ -6,6 +7,7 @@ namespace Game;
 public class Cliche
 {
     public readonly string text;
+    public readonly Player player;
 
     public Color Colour
     {
@@ -26,9 +28,10 @@ public class Cliche
         }
     }
 
-    public Cliche(string text)
+    public Cliche(string text, Player player)
     {
         this.text = text;
+        this.player = player;
     }
 
     public float GetCatchiness(City city)
@@ -40,15 +43,14 @@ public class Cliche
     {
         if (obj == null) return false;
 
-        if (obj.GetType() == typeof(Cliche))
+        if (obj is Cliche cliche2)
         {
-            Cliche other = (Cliche)obj;
-            return other.text == text;
+            return cliche2.text == text && cliche2.player == player;
         }
         else return false;
     }
 
-    public override int GetHashCode() => text.GetHashCode();
+    public override int GetHashCode() => HashCode.Combine(text, player);
 
     public static bool operator ==(Cliche? lhs, Cliche? rhs)
     {

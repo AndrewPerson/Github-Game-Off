@@ -1,18 +1,29 @@
-[gd_scene load_steps=4 format=3 uid="uid://cfpqjetfy6bjj"]
+[gd_scene load_steps=6 format=3 uid="uid://cfpqjetfy6bjj"]
 
 [ext_resource type="Script" path="res://Game/GameNode.cs" id="1_daene"]
 [ext_resource type="PackedScene" uid="uid://br7dtu3nfbtb2" path="res://Game/City/City.tscn" id="2_rqbad"]
 [ext_resource type="Script" path="res://Game/ScrollingCameraNode.cs" id="3_cq6an"]
+[ext_resource type="PackedScene" uid="uid://f23xgohh7un2" path="res://Game/City/Connection/PlaceholderConnection.tscn" id="4_1g1cd"]
+[ext_resource type="Script" path="res://Game/City/Connection/ConnectionCreatorNode.cs" id="4_m7ejm"]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("connectionCreator")]
 script = ExtResource("1_daene")
 totalCities = 30
 minCityNameSyllables = 2
 maxCityNameSyllables = 4
 cityTemplate = ExtResource("2_rqbad")
+connectionCreator = NodePath("Connection Creator")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 script = ExtResource("3_cq6an")
 
-[node name="Node" type="Node" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+follow_viewport_enabled = true
+
+[node name="PlaceholderConnection" parent="CanvasLayer" instance=ExtResource("4_1g1cd")]
+
+[node name="Connection Creator" type="Node2D" parent="." node_paths=PackedStringArray("placeholderConnection")]
+script = ExtResource("4_m7ejm")
+placeholderConnection = NodePath("../CanvasLayer/PlaceholderConnection")

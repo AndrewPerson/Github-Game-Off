@@ -17,6 +17,7 @@ public partial class ConnectionNode : ColorRect
 
 	public override void _Ready()
 	{
+		Material = (Material)Material.Duplicate();
 		UpdatePosition();
 	}
 

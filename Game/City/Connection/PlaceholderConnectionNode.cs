@@ -36,7 +36,7 @@ public partial class PlaceholderConnectionNode : ColorRect
         float dist = from.DistanceTo(to);
         Size = new Vector2(dist, Size.y);
         Position = from + new Vector2(0, -PivotOffset.y);
-        Rotation = (from - to).Angle();
+        Rotation = (to - from).Angle();
 
         ((ShaderMaterial)Material).SetShaderParameter("size", new Vector2(dist / Size.y, 1));
     }

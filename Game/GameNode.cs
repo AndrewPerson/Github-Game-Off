@@ -41,6 +41,11 @@ public partial class GameNode : Node
 	[Export]
 	public PackedScene cityTemplate = null!;
 
+	[Export]
+	public ConnectionCreatorNode connectionCreator = null!;
+
+	//TODO Make this based off player input.
+	public Player player = new("Andrew");
 	public List<City> cities = new();
 	public List<Cliche> cliches = new();
 
@@ -116,13 +121,10 @@ public partial class GameNode : Node
 		foreach (var city in cities)
 		{
 			//DEBUG code. Remove when done
-			city.clicheStats[new Cliche("Cliche A")] = new ClicheCityStats(0.5f, 0.1f);
-			city.clicheStats[new Cliche("Cliche B")] = new ClicheCityStats(0.3f, 0.3f);
-			city.clicheStats[new Cliche("Cliche C")] = new ClicheCityStats(0.2f, 0.3f);
+			city.clicheStats[new Cliche("Cliche A", GD.Randf() < 0.5 ? player : new Player("Opponent"))] = new ClicheCityStats(0.5f, 0.1f);
+			city.clicheStats[new Cliche("Cliche B", GD.Randf() < 0.5 ? player : new Player("Opponent"))] = new ClicheCityStats(0.3f, 0.3f);
+			city.clicheStats[new Cliche("Cliche C", GD.Randf() < 0.5 ? player : new Player("Opponent"))] = new ClicheCityStats(0.2f, 0.3f);
 		}
-
-		cities[0].ConnectTo(cities[1]);
-        cities[1].ConnectTo(cities[0]);
 
 		return cities;
 	}

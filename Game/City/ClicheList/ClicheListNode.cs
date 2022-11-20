@@ -38,8 +38,10 @@ public partial class ClicheListNode : Control
 	private void UpdateCityName()
 	{
 		cityName.PushParagraph(HorizontalAlignment.Center, TextDirection.Auto);
+		cityName.PushColor(city.ControlledBy == GameNode.Instance.player ? new Color(0, 1, 0) : new Color(1, 0, 0));
 		cityName.PushUnderline();
 		cityName.AddText(city.name);
+		cityName.Pop();
 		cityName.Pop();
 		cityName.Pop();
 	}

@@ -15,20 +15,49 @@ public class City
 
     public string name;
     public Vector2 position;
-    public List<Array<float>> likeVectors = new();
+    public List<Array<float>> likeVectors;
     public List<Connection> connections = new();
     public Dictionary<Cliche, ClicheCityStats> clicheStats = new();
+
+    public Player? ControlledBy
+    {
+        get
+        {
+            if (clicheStats.Count == 0) return null;
+
+            Dictionary<Player, float> playerPercentages = clicheStats.Aggregate(new Dictionary<Player, float>(), (acc, cliche) =>
+            {
+                if (!acc.ContainsKey(cliche.Key.player)) acc[cliche.Key.player] = 0;
+                acc[cliche.Key.player] += cliche.Value.spread;
+                return acc;
+            });
+
+            var (maxPlayer, maxPercentage) = playerPercentages.Aggregate((acc, player) => player.Value > acc.Value ? player : acc);
+
+            if (maxPercentage < 0.5) return null;
+            else return maxPlayer;
+        }
+    }
 
     private Cliche? producedCliche;
     public Cliche? ProducedCliche
     {
-        get => producedCliche;
+        get
+        {
+            if (producedCliche != null && producedCliche.player != ControlledBy)
+            {
+                producedCliche = null;
+            }
+
+            return producedCliche;
+        }
+
         set
         {
             producedCliche = value;
             OnUpdateProducedCliche?.Invoke();
         }
-    }    
+    }
 
     public City(string name, Vector2 position, List<Array<float>> likeVectors)
     {
@@ -179,15 +208,14 @@ public class City
     {
         if (obj == null) return false;
 
-        if (obj.GetType() == typeof(City))
+        if (obj is City city2)
         {
-            City other = (City)obj;
-            return position == other.position && connections == other.connections;
+            return position == city2.position && connections == city2.connections;
         }
         else return false;
     }
 
-    public override int GetHashCode() => base.GetHashCode();
+    public override int GetHashCode() => HashCode.Combine(position, connections);
 
     public static bool operator ==(City? lhs, City? rhs)
     {
