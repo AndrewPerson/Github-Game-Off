@@ -15,7 +15,7 @@ public partial class IndicatorSliceNode : ColorRect
         }
     }
 
-	private float percentage = 0;
+    private float percentage = 0;
     public float Percentage
     {
         get => percentage;

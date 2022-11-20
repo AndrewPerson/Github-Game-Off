@@ -3,7 +3,7 @@ using System;
 
 public partial class ScrollingCameraNode : Camera2D
 {
-	[Export]
+    [Export]
     public float speed = 500;
 
     [Export]
@@ -18,11 +18,11 @@ public partial class ScrollingCameraNode : Camera2D
     [Export]
     public float maxZoom = 5;
 
-	private float FloatZoom
-	{
-		get => 1 / Zoom.x;
-		set => Zoom = new Vector2(1 / value, 1 / value);
-	}
+    private float FloatZoom
+    {
+        get => 1 / Zoom.x;
+        set => Zoom = new Vector2(1 / value, 1 / value);
+    }
 
     public override void _Ready()
     {
@@ -43,7 +43,7 @@ public partial class ScrollingCameraNode : Camera2D
         {
             if (@event is InputEventMouseMotion mouseMotion)
             {
-				Position -= mouseMotion.Relative * mouseSpeed * FloatZoom;
+                Position -= mouseMotion.Relative * mouseSpeed * FloatZoom;
             }
         }
         else if (@event is InputEventMouseButton mouseButton)
@@ -54,7 +54,7 @@ public partial class ScrollingCameraNode : Camera2D
                              mouseButton.ButtonIndex == MouseButton.WheelDown ? 1 :
                              0) * zoomSpeed;
 
-				
+                
                 FloatZoom = Mathf.Clamp(FloatZoom + zoomMovement, minZoom, maxZoom);
             }
         }

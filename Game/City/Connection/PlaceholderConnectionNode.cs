@@ -5,7 +5,7 @@ namespace Game;
 public partial class PlaceholderConnectionNode : ColorRect
 {
     private Vector2 from = Vector2.Zero;
-	public Vector2 From
+    public Vector2 From
     {
         get => from;
         set
@@ -26,10 +26,10 @@ public partial class PlaceholderConnectionNode : ColorRect
         }
     }
 
-	public override void _Ready()
-	{
-		UpdatePosition();
-	}
+    public override void _Ready()
+    {
+        UpdatePosition();
+    }
 
     private void UpdatePosition()
     {
