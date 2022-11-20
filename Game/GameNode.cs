@@ -3,6 +3,7 @@ using System.Linq;
 using System.Globalization;
 using System.Text;
 using System.Collections.Generic;
+using Proxem.NumNet;
 using Proxem.Word2Vec;
 
 using Timer = System.Timers.Timer;
@@ -24,13 +25,18 @@ public partial class GameNode : Node
 	[Export]
 	public int totalCities = 40;
 
-    [Export]
-    public int numCityLikeVectors = 5;
+	[Export]
+	public int numCityLikeVectorsMax = 7;
 
-    [Export]
-    public int mapWidth= 3000;
-    [Export]
-    public int mapHeight = 3000;
+	[Export]
+	public int numCityLikeVectorsMin = 2;
+
+	public List<Array<float>> likeVectors = new();
+
+	[Export]
+	public int mapWidth= 3000;
+	[Export]
+	public int mapHeight = 3000;
 
 	[Export]
 	public int minCityNameSyllables = 3;
@@ -49,22 +55,22 @@ public partial class GameNode : Node
 	public List<City> cities = new();
 	public List<Cliche> cliches = new();
 
-    public Timer timer = new();
+	public Timer timer = new();
 
-    public GameNode()
-    {
-        Instance = this;
+	public GameNode()
+	{
+		Instance = this;
 
-        timer.Interval = 200;
-        timer.Elapsed += (_, _) => OnTimerElapsed();
-        timer.Start();
-    }
+		timer.Interval = 200;
+		timer.Elapsed += (_, _) => OnTimerElapsed();
+		timer.Start();
+	}
 
-    public override void _Ready()
-    {
-        cities = GenerateCities();
-        RenderCities();
-    }
+	public override void _Ready()
+	{
+		cities = GenerateCities();
+		RenderCities();
+	}
 
 	private void OnTimerElapsed()
 	{
@@ -78,10 +84,10 @@ public partial class GameNode : Node
 	{
 		var usedNames = new HashSet<string>();
 		var cities = new List<City>();
-
+		var model = Word2Vec.LoadBinary("NLP/model.bin", normalize: true, encoding: System.Text.Encoding.UTF8);
 		for (int i = 0; i < totalCities; i++)
 		{
-            // Generate a random name for the city
+			// Generate a random name for the city
 			string cityName;
 			do
 			{
@@ -100,7 +106,7 @@ public partial class GameNode : Node
 
 			cityName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(cityName);
 
-            // Generate a random position for the city
+			// Generate a random position for the city
 			var cityPosition = new Vector2(GD.RandRange(mapHeight / 2 , mapHeight / -2), GD.RandRange(mapWidth / 2 , mapWidth / -2));
 			while (cities.Any(city => city.position.DistanceTo(cityPosition) < 400))
 			{
@@ -108,14 +114,14 @@ public partial class GameNode : Node
 			}
 
 			//TODO Generate like vectors
-            var likeVectors = new List<Vector2>();
-            for (int x = 0; x < numCityLikeVectors; x++)
-            {
-                //TODO Get random vectors from word2vec
-            }
+			for (int x = 0; x < GD.RandRange(numCityLikeVectorsMin, numCityLikeVectorsMax); x++)
+			{
+                likeVectors.Add(model[model.Text[GD.RandRange(0, model.Text.Length-1)]]);
 
-            //Add City to list
-			cities.Add(new City(cityName, cityPosition, new()));
+			}
+
+			//Add City to list
+			cities.Add(new City(cityName, cityPosition, likeVectors));
 		}
 
 		foreach (var city in cities)
@@ -144,6 +150,6 @@ public partial class GameNode : Node
 	{
 		base.Dispose(disposing);
 
-        if (disposing) timer.Dispose();
-    }
+		if (disposing) timer.Dispose();
+	}
 }
