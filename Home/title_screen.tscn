@@ -1,0 +1,149 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmukm7khweylu"]
+
+[ext_resource type="FontFile" uid="uid://dakcltm8cq6xp" path="res://Home/ARCADE.TTF" id="1_j22mp"]
+[ext_resource type="FontFile" uid="uid://beeldvb0heaqd" path="res://Home/Technology.ttf" id="2_we010"]
+
+[node name="Title Screen" type="Node2D"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+offset_right = 1920.0
+offset_bottom = 1080.0
+theme_override_constants/separation = 9
+alignment = 1
+
+[node name="Title" type="VBoxContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+offset_top = 332.0
+offset_right = 1920.0
+offset_bottom = 435.0
+alignment = 1
+
+[node name="Label" type="Label" parent="Control/VBoxContainer/Title"]
+layout_mode = 2
+offset_right = 1920.0
+offset_bottom = 103.0
+theme_override_fonts/font = ExtResource("1_j22mp")
+theme_override_font_sizes/font_size = 100
+text = "Planet Platitude"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="Subtitle" type="VBoxContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+offset_top = 444.0
+offset_right = 1920.0
+offset_bottom = 487.0
+
+[node name="Label" type="Label" parent="Control/VBoxContainer/Subtitle"]
+layout_mode = 2
+offset_right = 1920.0
+offset_bottom = 43.0
+theme_override_font_sizes/font_size = 30
+text = "CAPTIVATE THE WORLD"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Menu" type="VBoxContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+offset_left = 810.0
+offset_top = 496.0
+offset_right = 1110.0
+offset_bottom = 748.0
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="PLAY" type="Button" parent="Control/VBoxContainer/Menu"]
+custom_minimum_size = Vector2(150, 60)
+layout_mode = 2
+offset_right = 300.0
+offset_bottom = 60.0
+mouse_default_cursor_shape = 2
+icon_alignment = 1
+
+[node name="Label" type="Label" parent="Control/VBoxContainer/Menu/PLAY"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_we010")
+theme_override_font_sizes/font_size = 50
+text = "PLAY"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="INSTRUCTIONS" type="Button" parent="Control/VBoxContainer/Menu"]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+offset_top = 64.0
+offset_right = 300.0
+offset_bottom = 124.0
+mouse_default_cursor_shape = 2
+
+[node name="Label" type="Label" parent="Control/VBoxContainer/Menu/INSTRUCTIONS"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_we010")
+theme_override_font_sizes/font_size = 30
+text = "INSTRUCTIONS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WORD SEARCH" type="Button" parent="Control/VBoxContainer/Menu"]
+custom_minimum_size = Vector2(150, 60)
+layout_mode = 2
+offset_top = 128.0
+offset_right = 300.0
+offset_bottom = 188.0
+mouse_default_cursor_shape = 2
+
+[node name="Label" type="Label" parent="Control/VBoxContainer/Menu/WORD SEARCH"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_we010")
+theme_override_font_sizes/font_size = 30
+text = "WORD SEARCH"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CREDITS" type="Button" parent="Control/VBoxContainer/Menu"]
+custom_minimum_size = Vector2(150, 60)
+layout_mode = 2
+offset_top = 192.0
+offset_right = 300.0
+offset_bottom = 252.0
+mouse_default_cursor_shape = 2
+
+[node name="Label" type="Label" parent="Control/VBoxContainer/Menu/CREDITS"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_we010")
+theme_override_font_sizes/font_size = 30
+text = "CREDITS"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
