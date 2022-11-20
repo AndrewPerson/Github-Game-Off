@@ -1,6 +1,10 @@
 using Godot;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
+using Proxem.NumNet;
+using NLP;
 
 namespace Game;
 
@@ -8,6 +12,8 @@ public class Cliche
 {
     public readonly string text;
     public readonly Player player;
+
+    private readonly Task<Array<float>[]> Vectors = null!;
 
     public Color Colour
     {
@@ -32,11 +38,27 @@ public class Cliche
     {
         this.text = text;
         this.player = player;
+
+        Vectors = GetVectors();
     }
 
     public float GetCatchiness(City city)
     {
-        throw new System.NotImplementedException("Catchiness not implemented");
+        var catchiness = 0.0f;
+        foreach (var vector in city.likeVectors)
+        {
+            var similarity = Word2VecUtils.PhraseSimilarity(Vectors.Result, new[] { vector });
+            catchiness += similarity - 0.5f;
+        }
+
+        return catchiness;
+    }
+
+    public async Task<Array<float>[]> GetVectors()
+    {
+        var pieces = (await Normaliser.NormalisePhrase(text)).Where(word => GameNode.Instance.model.Text.Contains(word));
+
+        return pieces.Select(word => GameNode.Instance.model[word]).ToArray();
     }
 
     public override bool Equals([NotNullWhen(true)] object? obj)

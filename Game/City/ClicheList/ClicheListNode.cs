@@ -13,11 +13,19 @@ public partial class ClicheListNode : Control
         get => city;
         set
         {
-            if (city != null) city.OnUpdateCliches -= UpdateCliches;
+            if (city != null)
+            {
+                city.OnUpdateCliches -= UpdateCityName;
+                city.OnUpdateCliches -= UpdateCliches;
+            }
+
             city = value;
+
+            city.OnUpdateCliches += UpdateCityName;
             city.OnUpdateCliches += UpdateCliches;
 
             UpdateCityName();
+            UpdateCliches();
         }
     }
 
@@ -26,6 +34,7 @@ public partial class ClicheListNode : Control
 
     public ClicheListNode()
     {
+        VisibilityChanged += UpdateCityName;
         VisibilityChanged += UpdateCliches;
     }
 
@@ -37,13 +46,17 @@ public partial class ClicheListNode : Control
 
     private void UpdateCityName()
     {
-        cityName.PushParagraph(HorizontalAlignment.Center, TextDirection.Auto);
-        cityName.PushColor(city.ControlledBy == GameNode.Instance.player ? new Color(0, 1, 0) : new Color(1, 0, 0));
-        cityName.PushUnderline();
-        cityName.AddText(city.name);
-        cityName.Pop();
-        cityName.Pop();
-        cityName.Pop();
+        if (Visible && city != null)
+        {
+            cityName.Clear();
+            cityName.PushParagraph(HorizontalAlignment.Center, TextDirection.Auto);
+            cityName.PushUnderline();
+            cityName.PushColor(city.ControlledBy == GameNode.Instance.player ? new Color(0, 1, 0) : new Color(1, 0, 0));
+            cityName.AddText(city.name);
+            cityName.Pop();
+            cityName.Pop();
+            cityName.Pop();
+        }
     }
 
     private void UpdateCliches()

@@ -31,8 +31,6 @@ public partial class GameNode : Node
     [Export]
     public int numCityLikeVectorsMin = 2;
 
-    public List<Array<float>> likeVectors = new();
-
     [Export]
     public int mapWidth= 3000;
     [Export]
@@ -50,6 +48,8 @@ public partial class GameNode : Node
     [Export]
     public ConnectionCreatorNode connectionCreator = null!;
 
+    public Word2Vec model;
+
     //TODO Make this based off player input.
     public Player player = new("Andrew");
     public List<City> cities = new();
@@ -60,6 +60,10 @@ public partial class GameNode : Node
     public GameNode()
     {
         Instance = this;
+
+        Catalyst.Models.English.Register();
+
+        model = Word2Vec.LoadBinary("NLP/model.bin", normalize: true, encoding: Encoding.UTF8);
 
         timer.Interval = 200;
         timer.Elapsed += (_, _) => OnTimerElapsed();
@@ -84,7 +88,6 @@ public partial class GameNode : Node
     {
         var usedNames = new HashSet<string>();
         var cities = new List<City>();
-        var model = Word2Vec.LoadBinary("NLP/model.bin", normalize: true, encoding: System.Text.Encoding.UTF8);
         for (int i = 0; i < totalCities; i++)
         {
             // Generate a random name for the city
@@ -113,23 +116,29 @@ public partial class GameNode : Node
                 cityPosition = new Vector2(GD.RandRange(mapHeight / 2 , mapHeight / -2), GD.RandRange(mapWidth / 2 , mapWidth / -2));
             }
 
-            //TODO Generate like vectors
+            var likeWords = new List<string>();
             for (int x = 0; x < GD.RandRange(numCityLikeVectorsMin, numCityLikeVectorsMax); x++)
             {
-                likeVectors.Add(model[model.Text[GD.RandRange(0, model.Text.Length-1)]]);
-
+                var word = model.Text[GD.RandRange(0, model.Text.Length - 1)];
+                likeWords.Add(word);
             }
 
             //Add City to list
-            cities.Add(new City(cityName, cityPosition, likeVectors));
+            cities.Add(new City(cityName, cityPosition, likeWords));
         }
 
         foreach (var city in cities)
         {
+            var cliche = new Cliche("A watched pot never boils", player);
+            city.AddCliche(cliche, cliche.GetCatchiness(city));
+
+            var cliche2 = new Cliche("You can't teach an old dog new tricks", new Player("Opponent"));
+            city.AddCliche(cliche2, cliche2.GetCatchiness(city));
+
             //DEBUG code. Remove when done
-            city.clicheStats[new Cliche("Cliche A", GD.Randf() < 0.5 ? player : new Player("Opponent"))] = new ClicheCityStats(0.5f, 0.1f);
-            city.clicheStats[new Cliche("Cliche B", GD.Randf() < 0.5 ? player : new Player("Opponent"))] = new ClicheCityStats(0.3f, 0.3f);
-            city.clicheStats[new Cliche("Cliche C", GD.Randf() < 0.5 ? player : new Player("Opponent"))] = new ClicheCityStats(0.2f, 0.3f);
+            // city.clicheStats[new Cliche("Cliche A", GD.Randf() < 0.5 ? player : new Player("Opponent"))] = new ClicheCityStats(0.5f, 0.01f);
+            // city.clicheStats[new Cliche("Cliche B", GD.Randf() < 0.5 ? player : new Player("Opponent"))] = new ClicheCityStats(0.3f, 0.3f);
+            // city.clicheStats[new Cliche("Cliche C", GD.Randf() < 0.5 ? player : new Player("Opponent"))] = new ClicheCityStats(0.2f, 0.3f);
         }
 
         return cities;

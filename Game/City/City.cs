@@ -15,7 +15,20 @@ public class City
 
     public string name;
     public Vector2 position;
-    public List<Array<float>> likeVectors;
+    public List<Array<float>> likeVectors = new();
+    //DEBUG
+    private List<string> likeWords = new();
+    public List<string> LikeWords
+    {
+        set
+        {
+            likeVectors = value.Select(word => GameNode.Instance.model[word]).ToList();
+            likeWords = value;
+        }
+
+        get => likeWords;
+    }
+
     public List<Connection> connections = new();
     public Dictionary<Cliche, ClicheCityStats> clicheStats = new();
 
@@ -59,11 +72,11 @@ public class City
         }
     }
 
-    public City(string name, Vector2 position, List<Array<float>> likeVectors)
+    public City(string name, Vector2 position, List<string> likeWords)
     {
         this.name = name;
         this.position = position;
-        this.likeVectors = likeVectors;
+        this.LikeWords = likeWords;
     }
 
     public void CalculateInternalClicheSpreads()
@@ -124,12 +137,6 @@ public class City
             }
         }
 
-        //To compensate for precision errors.
-        if (clicheStats.Count == 1)
-        {
-            clicheStats[clicheStats.Keys.First()].spread = 1;
-        }
-
         OnUpdateCliches?.Invoke();
     }
 
@@ -188,7 +195,7 @@ public class City
         }
         else
         {
-            clicheStats.Add(cliche, new ClicheCityStats(catchiness, 0));
+            clicheStats.Add(cliche, new ClicheCityStats(catchiness, 0.01f));
         }
 
         OnUpdateCliches?.Invoke();

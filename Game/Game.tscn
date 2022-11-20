@@ -27,3 +27,5 @@ follow_viewport_enabled = true
 [node name="Connection Creator" type="Node2D" parent="." node_paths=PackedStringArray("placeholderConnection")]
 script = ExtResource("4_m7ejm")
 placeholderConnection = NodePath("../CanvasLayer/PlaceholderConnection")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
