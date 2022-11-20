@@ -69,7 +69,7 @@ public class City
     public void CalculateInternalClicheSpreads()
     {
         var sortedCliches = clicheStats.OrderBy(s => s.Value.catchiness).ToArray();
-        
+
         var summedCatchiness = 0f;
         var catchinessCount = 0;
         var freeSpace = 1 - clicheStats.Sum(x => x.Value.spread);

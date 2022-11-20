@@ -17,7 +17,7 @@ public partial class CityNode : Node2D
     private ClicheListNode clicheList = null!;
 
     private bool hovering;
-    
+
     public override void _Ready()
     {
         nameLabel = GetNode<RichTextLabel>("%Name");
@@ -68,7 +68,7 @@ public partial class CityNode : Node2D
             else
             {
                 slice = (IndicatorSliceNode)indicatorSliceTemplate.Instantiate();
-                
+
                 //Although this is already set in the scene, it needs to be done in code as well for the anchors to readjust
                 slice.AnchorsPreset = (int)Control.LayoutPreset.FullRect;
 

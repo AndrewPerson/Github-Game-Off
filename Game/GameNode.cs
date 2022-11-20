@@ -17,7 +17,7 @@ public partial class GameNode : Node
         "ca", "do", "ica", "ip",
         "lo", "lus", "ma", "mo",
         "mus", "nu", "pi", "re",
-        "res", "ro", "sum", "te" 
+        "res", "ro", "sum", "te"
     };
 
     public static GameNode Instance { get; private set; } = null!;

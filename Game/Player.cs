@@ -14,7 +14,7 @@ public class Player
     public override bool Equals([NotNullWhen(true)] object? obj)
     {
         if (obj is null) return false;
-        
+
         if (obj is Player player2)
         {
             return player2.name == name;

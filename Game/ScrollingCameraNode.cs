@@ -54,7 +54,7 @@ public partial class ScrollingCameraNode : Camera2D
                              mouseButton.ButtonIndex == MouseButton.WheelDown ? 1 :
                              0) * zoomSpeed;
 
-                
+
                 FloatZoom = Mathf.Clamp(FloatZoom + zoomMovement, minZoom, maxZoom);
             }
         }
